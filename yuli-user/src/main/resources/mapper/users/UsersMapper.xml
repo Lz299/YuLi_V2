@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuli.users.mapper.UsersMapper">
+    
+    <resultMap type="com.yuli.users.domain.Users" id="UsersResult">
+        <result property="usersId"    column="users_id"    />
+        <result property="usersName"    column="users_name"    />
+        <result property="usersPassword"    column="users_password"    />
+        <result property="usersSex"    column="users_sex"    />
+        <result property="usersPhone"    column="users_phone"    />
+        <result property="usersImage"    column="users_image"    />
+        <result property="role"    column="role"    />
+        <result property="usersStatus"    column="users_status"    />
+        <result property="statureId"    column="stature_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectUsersVo">
+        select users_id, users_name, users_password, users_sex, users_phone, users_image, role, users_status, stature_id, create_time, update_time from users
+    </sql>
+
+    <select id="selectUsersList" parameterType="com.yuli.users.domain.Users" resultMap="UsersResult">
+        <include refid="selectUsersVo"/>
+        <where>  
+            <if test="usersName != null  and usersName != ''"> and users_name like concat('%', #{usersName}, '%')</if>
+            <if test="usersPassword != null  and usersPassword != ''"> and users_password = #{usersPassword}</if>
+            <if test="usersSex != null  and usersSex != ''"> and users_sex = #{usersSex}</if>
+            <if test="usersPhone != null  and usersPhone != ''"> and users_phone = #{usersPhone}</if>
+            <if test="usersImage != null  and usersImage != ''"> and users_image = #{usersImage}</if>
+            <if test="role != null  and role != ''"> and role = #{role}</if>
+            <if test="usersStatus != null  and usersStatus != ''"> and users_status = #{usersStatus}</if>
+            <if test="statureId != null "> and stature_id = #{statureId}</if>
+        </where>
+    </select>
+    
+    <select id="selectUsersByUsersId" parameterType="Long" resultMap="UsersResult">
+        <include refid="selectUsersVo"/>
+        where users_id = #{usersId}
+    </select>
+        
+    <insert id="insertUsers" parameterType="com.yuli.users.domain.Users" useGeneratedKeys="true" keyProperty="usersId">
+        insert into users
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="usersName != null and usersName != ''">users_name,</if>
+            <if test="usersPassword != null and usersPassword != ''">users_password,</if>
+            <if test="usersSex != null">users_sex,</if>
+            <if test="usersPhone != null and usersPhone != ''">users_phone,</if>
+            <if test="usersImage != null">users_image,</if>
+            <if test="role != null">role,</if>
+            <if test="usersStatus != null and usersStatus != ''">users_status,</if>
+            <if test="statureId != null">stature_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="usersName != null and usersName != ''">#{usersName},</if>
+            <if test="usersPassword != null and usersPassword != ''">#{usersPassword},</if>
+            <if test="usersSex != null">#{usersSex},</if>
+            <if test="usersPhone != null and usersPhone != ''">#{usersPhone},</if>
+            <if test="usersImage != null">#{usersImage},</if>
+            <if test="role != null">#{role},</if>
+            <if test="usersStatus != null and usersStatus != ''">#{usersStatus},</if>
+            <if test="statureId != null">#{statureId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUsers" parameterType="com.yuli.users.domain.Users">
+        update users
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="usersName != null and usersName != ''">users_name = #{usersName},</if>
+            <if test="usersPassword != null and usersPassword != ''">users_password = #{usersPassword},</if>
+            <if test="usersSex != null">users_sex = #{usersSex},</if>
+            <if test="usersPhone != null and usersPhone != ''">users_phone = #{usersPhone},</if>
+            <if test="usersImage != null">users_image = #{usersImage},</if>
+            <if test="role != null">role = #{role},</if>
+            <if test="usersStatus != null and usersStatus != ''">users_status = #{usersStatus},</if>
+            <if test="statureId != null">stature_id = #{statureId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where users_id = #{usersId}
+    </update>
+
+    <delete id="deleteUsersByUsersId" parameterType="Long">
+        delete from users where users_id = #{usersId}
+    </delete>
+
+    <delete id="deleteUsersByUsersIds" parameterType="String">
+        delete from users where users_id in 
+        <foreach item="usersId" collection="array" open="(" separator="," close=")">
+            #{usersId}
+        </foreach>
+    </delete>
+</mapper>
