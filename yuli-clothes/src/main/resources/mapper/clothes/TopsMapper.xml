@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuli.clothes.mapper.TopsMapper">
+    
+    <resultMap type="Tops" id="TopsResult">
+        <result property="topsId"    column="tops_id"    />
+        <result property="usersId"    column="users_id"    />
+        <result property="topsName"    column="tops_name"    />
+        <result property="topsImage"    column="tops_image"    />
+        <result property="topsType"    column="tops_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTopsVo">
+        select tops_id, users_id, tops_name, tops_image, tops_type, create_time, update_time from tops
+    </sql>
+
+    <select id="selectTopsList" parameterType="Tops" resultMap="TopsResult">
+        <include refid="selectTopsVo"/>
+        <where>  
+            <if test="usersId != null "> and users_id = #{usersId}</if>
+            <if test="topsName != null  and topsName != ''"> and tops_name like concat('%', #{topsName}, '%')</if>
+            <if test="topsImage != null  and topsImage != ''"> and tops_image = #{topsImage}</if>
+            <if test="topsType != null  and topsType != ''"> and tops_type = #{topsType}</if>
+        </where>
+    </select>
+    
+    <select id="selectTopsByTopsId" parameterType="Long" resultMap="TopsResult">
+        <include refid="selectTopsVo"/>
+        where tops_id = #{topsId}
+    </select>
+        
+    <insert id="insertTops" parameterType="Tops" useGeneratedKeys="true" keyProperty="topsId">
+        insert into tops
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">users_id,</if>
+            <if test="topsName != null">tops_name,</if>
+            <if test="topsImage != null">tops_image,</if>
+            <if test="topsType != null">tops_type,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">#{usersId},</if>
+            <if test="topsName != null">#{topsName},</if>
+            <if test="topsImage != null">#{topsImage},</if>
+            <if test="topsType != null">#{topsType},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTops" parameterType="Tops">
+        update tops
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="usersId != null">users_id = #{usersId},</if>
+            <if test="topsName != null">tops_name = #{topsName},</if>
+            <if test="topsImage != null">tops_image = #{topsImage},</if>
+            <if test="topsType != null">tops_type = #{topsType},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where tops_id = #{topsId}
+    </update>
+
+    <delete id="deleteTopsByTopsId" parameterType="Long">
+        delete from tops where tops_id = #{topsId}
+    </delete>
+
+    <delete id="deleteTopsByTopsIds" parameterType="String">
+        delete from tops where tops_id in 
+        <foreach item="topsId" collection="array" open="(" separator="," close=")">
+            #{topsId}
+        </foreach>
+    </delete>
+</mapper>

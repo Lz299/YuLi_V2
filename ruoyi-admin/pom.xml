@@ -64,6 +64,10 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>yuli-user</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>yuli-clothes</artifactId>
+        </dependency>
 
     </dependencies>
 
