@@ -181,6 +181,11 @@
                 <artifactId>yuli-clothes</artifactId>
                 <version>3.8.7</version>
             </dependency>
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>yuli-community</artifactId>
+                <version>3.8.7</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -193,6 +198,7 @@
         <module>ruoyi-common</module>
         <module>yuli-user</module>
         <module>yuli-clothes</module>
+        <module>yuli-community</module>
     </modules>
     <packaging>pom</packaging>
 

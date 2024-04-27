@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuli.clothes.mapper.HatsMapper">
+    
+    <resultMap type="Hats" id="HatsResult">
+        <result property="hatsId"    column="hats_id"    />
+        <result property="usersId"    column="users_id"    />
+        <result property="hatsName"    column="hats_name"    />
+        <result property="hatsImage"    column="hats_image"    />
+        <result property="hatsType"    column="hats_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectHatsVo">
+        select hats_id, users_id, hats_name, hats_image, hats_type, create_time, update_time from hats
+    </sql>
+
+    <select id="selectHatsList" parameterType="Hats" resultMap="HatsResult">
+        <include refid="selectHatsVo"/>
+        <where>  
+            <if test="usersId != null "> and users_id = #{usersId}</if>
+            <if test="hatsName != null  and hatsName != ''"> and hats_name like concat('%', #{hatsName}, '%')</if>
+            <if test="hatsImage != null  and hatsImage != ''"> and hats_image = #{hatsImage}</if>
+            <if test="hatsType != null  and hatsType != ''"> and hats_type = #{hatsType}</if>
+        </where>
+    </select>
+    
+    <select id="selectHatsByHatsId" parameterType="Long" resultMap="HatsResult">
+        <include refid="selectHatsVo"/>
+        where hats_id = #{hatsId}
+    </select>
+        
+    <insert id="insertHats" parameterType="Hats" useGeneratedKeys="true" keyProperty="hatsId">
+        insert into hats
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">users_id,</if>
+            <if test="hatsName != null">hats_name,</if>
+            <if test="hatsImage != null">hats_image,</if>
+            <if test="hatsType != null">hats_type,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">#{usersId},</if>
+            <if test="hatsName != null">#{hatsName},</if>
+            <if test="hatsImage != null">#{hatsImage},</if>
+            <if test="hatsType != null">#{hatsType},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHats" parameterType="Hats">
+        update hats
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="usersId != null">users_id = #{usersId},</if>
+            <if test="hatsName != null">hats_name = #{hatsName},</if>
+            <if test="hatsImage != null">hats_image = #{hatsImage},</if>
+            <if test="hatsType != null">hats_type = #{hatsType},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where hats_id = #{hatsId}
+    </update>
+
+    <delete id="deleteHatsByHatsId" parameterType="Long">
+        delete from hats where hats_id = #{hatsId}
+    </delete>
+
+    <delete id="deleteHatsByHatsIds" parameterType="String">
+        delete from hats where hats_id in 
+        <foreach item="hatsId" collection="array" open="(" separator="," close=")">
+            #{hatsId}
+        </foreach>
+    </delete>
+</mapper>

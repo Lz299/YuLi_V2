@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuli.clothes.mapper.OutfitsMapper">
+    
+    <resultMap type="Outfits" id="OutfitsResult">
+        <result property="outfitsId"    column="outfits_id"    />
+        <result property="topsId"    column="tops_id"    />
+        <result property="hatsId"    column="hats_id"    />
+        <result property="pantsId"    column="pants_id"    />
+        <result property="shoesId"    column="shoes_id"    />
+        <result property="ornamentId"    column="ornament_id"    />
+        <result property="usersId"    column="users_id"    />
+        <result property="outfitsName"    column="outfits_name"    />
+        <result property="outfitsImage"    column="outfits_image"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectOutfitsVo">
+        select outfits_id, tops_id, hats_id, pants_id, shoes_id, ornament_id, users_id, outfits_name, outfits_image, create_time, update_time from outfits
+    </sql>
+
+    <select id="selectOutfitsList" parameterType="Outfits" resultMap="OutfitsResult">
+        <include refid="selectOutfitsVo"/>
+        <where>  
+            <if test="topsId != null "> and tops_id = #{topsId}</if>
+            <if test="hatsId != null "> and hats_id = #{hatsId}</if>
+            <if test="pantsId != null "> and pants_id = #{pantsId}</if>
+            <if test="shoesId != null "> and shoes_id = #{shoesId}</if>
+            <if test="ornamentId != null "> and ornament_id = #{ornamentId}</if>
+            <if test="usersId != null "> and users_id = #{usersId}</if>
+            <if test="outfitsName != null  and outfitsName != ''"> and outfits_name like concat('%', #{outfitsName}, '%')</if>
+            <if test="outfitsImage != null  and outfitsImage != ''"> and outfits_image = #{outfitsImage}</if>
+        </where>
+    </select>
+    
+    <select id="selectOutfitsByOutfitsId" parameterType="Long" resultMap="OutfitsResult">
+        <include refid="selectOutfitsVo"/>
+        where outfits_id = #{outfitsId}
+    </select>
+        
+    <insert id="insertOutfits" parameterType="Outfits" useGeneratedKeys="true" keyProperty="outfitsId">
+        insert into outfits
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="topsId != null">tops_id,</if>
+            <if test="hatsId != null">hats_id,</if>
+            <if test="pantsId != null">pants_id,</if>
+            <if test="shoesId != null">shoes_id,</if>
+            <if test="ornamentId != null">ornament_id,</if>
+            <if test="usersId != null">users_id,</if>
+            <if test="outfitsName != null">outfits_name,</if>
+            <if test="outfitsImage != null">outfits_image,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="topsId != null">#{topsId},</if>
+            <if test="hatsId != null">#{hatsId},</if>
+            <if test="pantsId != null">#{pantsId},</if>
+            <if test="shoesId != null">#{shoesId},</if>
+            <if test="ornamentId != null">#{ornamentId},</if>
+            <if test="usersId != null">#{usersId},</if>
+            <if test="outfitsName != null">#{outfitsName},</if>
+            <if test="outfitsImage != null">#{outfitsImage},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOutfits" parameterType="Outfits">
+        update outfits
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="topsId != null">tops_id = #{topsId},</if>
+            <if test="hatsId != null">hats_id = #{hatsId},</if>
+            <if test="pantsId != null">pants_id = #{pantsId},</if>
+            <if test="shoesId != null">shoes_id = #{shoesId},</if>
+            <if test="ornamentId != null">ornament_id = #{ornamentId},</if>
+            <if test="usersId != null">users_id = #{usersId},</if>
+            <if test="outfitsName != null">outfits_name = #{outfitsName},</if>
+            <if test="outfitsImage != null">outfits_image = #{outfitsImage},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where outfits_id = #{outfitsId}
+    </update>
+
+    <delete id="deleteOutfitsByOutfitsId" parameterType="Long">
+        delete from outfits where outfits_id = #{outfitsId}
+    </delete>
+
+    <delete id="deleteOutfitsByOutfitsIds" parameterType="String">
+        delete from outfits where outfits_id in 
+        <foreach item="outfitsId" collection="array" open="(" separator="," close=")">
+            #{outfitsId}
+        </foreach>
+    </delete>
+</mapper>

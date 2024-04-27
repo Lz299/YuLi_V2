@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuli.community.mapper.LikesMapper">
+    
+    <resultMap type="Likes" id="LikesResult">
+        <result property="likesId"    column="likes_id"    />
+        <result property="usersId"    column="users_id"    />
+        <result property="postsId"    column="posts_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectLikesVo">
+        select likes_id, users_id, posts_id, create_time, update_time from likes
+    </sql>
+
+    <select id="selectLikesList" parameterType="Likes" resultMap="LikesResult">
+        <include refid="selectLikesVo"/>
+        <where>  
+            <if test="usersId != null "> and users_id = #{usersId}</if>
+            <if test="postsId != null "> and posts_id = #{postsId}</if>
+        </where>
+    </select>
+    
+    <select id="selectLikesByLikesId" parameterType="Long" resultMap="LikesResult">
+        <include refid="selectLikesVo"/>
+        where likes_id = #{likesId}
+    </select>
+        
+    <insert id="insertLikes" parameterType="Likes" useGeneratedKeys="true" keyProperty="likesId">
+        insert into likes
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">users_id,</if>
+            <if test="postsId != null">posts_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">#{usersId},</if>
+            <if test="postsId != null">#{postsId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLikes" parameterType="Likes">
+        update likes
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="usersId != null">users_id = #{usersId},</if>
+            <if test="postsId != null">posts_id = #{postsId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where likes_id = #{likesId}
+    </update>
+
+    <delete id="deleteLikesByLikesId" parameterType="Long">
+        delete from likes where likes_id = #{likesId}
+    </delete>
+
+    <delete id="deleteLikesByLikesIds" parameterType="String">
+        delete from likes where likes_id in 
+        <foreach item="likesId" collection="array" open="(" separator="," close=")">
+            #{likesId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuli.clothes.mapper.ShoesMapper">
+    
+    <resultMap type="Shoes" id="ShoesResult">
+        <result property="shoesId"    column="shoes_id"    />
+        <result property="usersId"    column="users_id"    />
+        <result property="shoesName"    column="shoes_name"    />
+        <result property="shoesImage"    column="shoes_image"    />
+        <result property="shoesType"    column="shoes_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectShoesVo">
+        select shoes_id, users_id, shoes_name, shoes_image, shoes_type, create_time, update_time from shoes
+    </sql>
+
+    <select id="selectShoesList" parameterType="Shoes" resultMap="ShoesResult">
+        <include refid="selectShoesVo"/>
+        <where>  
+            <if test="usersId != null "> and users_id = #{usersId}</if>
+            <if test="shoesName != null  and shoesName != ''"> and shoes_name like concat('%', #{shoesName}, '%')</if>
+            <if test="shoesImage != null  and shoesImage != ''"> and shoes_image = #{shoesImage}</if>
+            <if test="shoesType != null  and shoesType != ''"> and shoes_type = #{shoesType}</if>
+        </where>
+    </select>
+    
+    <select id="selectShoesByShoesId" parameterType="Long" resultMap="ShoesResult">
+        <include refid="selectShoesVo"/>
+        where shoes_id = #{shoesId}
+    </select>
+        
+    <insert id="insertShoes" parameterType="Shoes" useGeneratedKeys="true" keyProperty="shoesId">
+        insert into shoes
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">users_id,</if>
+            <if test="shoesName != null">shoes_name,</if>
+            <if test="shoesImage != null">shoes_image,</if>
+            <if test="shoesType != null">shoes_type,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">#{usersId},</if>
+            <if test="shoesName != null">#{shoesName},</if>
+            <if test="shoesImage != null">#{shoesImage},</if>
+            <if test="shoesType != null">#{shoesType},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateShoes" parameterType="Shoes">
+        update shoes
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="usersId != null">users_id = #{usersId},</if>
+            <if test="shoesName != null">shoes_name = #{shoesName},</if>
+            <if test="shoesImage != null">shoes_image = #{shoesImage},</if>
+            <if test="shoesType != null">shoes_type = #{shoesType},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where shoes_id = #{shoesId}
+    </update>
+
+    <delete id="deleteShoesByShoesId" parameterType="Long">
+        delete from shoes where shoes_id = #{shoesId}
+    </delete>
+
+    <delete id="deleteShoesByShoesIds" parameterType="String">
+        delete from shoes where shoes_id in 
+        <foreach item="shoesId" collection="array" open="(" separator="," close=")">
+            #{shoesId}
+        </foreach>
+    </delete>
+</mapper>

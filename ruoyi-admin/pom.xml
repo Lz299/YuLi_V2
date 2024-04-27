@@ -68,6 +68,10 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>yuli-clothes</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>yuli-community</artifactId>
+        </dependency>
 
     </dependencies>
 

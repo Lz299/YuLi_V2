@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuli.clothes.mapper.PantsMapper">
+    
+    <resultMap type="Pants" id="PantsResult">
+        <result property="pantsId"    column="pants_id"    />
+        <result property="usersId"    column="users_id"    />
+        <result property="pantsName"    column="pants_name"    />
+        <result property="pantsImage"    column="pants_image"    />
+        <result property="pantsType"    column="pants_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectPantsVo">
+        select pants_id, users_id, pants_name, pants_image, pants_type, create_time, update_time from pants
+    </sql>
+
+    <select id="selectPantsList" parameterType="Pants" resultMap="PantsResult">
+        <include refid="selectPantsVo"/>
+        <where>  
+            <if test="usersId != null "> and users_id = #{usersId}</if>
+            <if test="pantsName != null  and pantsName != ''"> and pants_name like concat('%', #{pantsName}, '%')</if>
+            <if test="pantsImage != null  and pantsImage != ''"> and pants_image = #{pantsImage}</if>
+            <if test="pantsType != null  and pantsType != ''"> and pants_type = #{pantsType}</if>
+        </where>
+    </select>
+    
+    <select id="selectPantsByPantsId" parameterType="Long" resultMap="PantsResult">
+        <include refid="selectPantsVo"/>
+        where pants_id = #{pantsId}
+    </select>
+        
+    <insert id="insertPants" parameterType="Pants" useGeneratedKeys="true" keyProperty="pantsId">
+        insert into pants
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">users_id,</if>
+            <if test="pantsName != null">pants_name,</if>
+            <if test="pantsImage != null">pants_image,</if>
+            <if test="pantsType != null">pants_type,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">#{usersId},</if>
+            <if test="pantsName != null">#{pantsName},</if>
+            <if test="pantsImage != null">#{pantsImage},</if>
+            <if test="pantsType != null">#{pantsType},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePants" parameterType="Pants">
+        update pants
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="usersId != null">users_id = #{usersId},</if>
+            <if test="pantsName != null">pants_name = #{pantsName},</if>
+            <if test="pantsImage != null">pants_image = #{pantsImage},</if>
+            <if test="pantsType != null">pants_type = #{pantsType},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where pants_id = #{pantsId}
+    </update>
+
+    <delete id="deletePantsByPantsId" parameterType="Long">
+        delete from pants where pants_id = #{pantsId}
+    </delete>
+
+    <delete id="deletePantsByPantsIds" parameterType="String">
+        delete from pants where pants_id in 
+        <foreach item="pantsId" collection="array" open="(" separator="," close=")">
+            #{pantsId}
+        </foreach>
+    </delete>
+</mapper>

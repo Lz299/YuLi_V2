@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuli.community.mapper.CommentsMapper">
+    
+    <resultMap type="Comments" id="CommentsResult">
+        <result property="commentsId"    column="comments_id"    />
+        <result property="usersId"    column="users_id"    />
+        <result property="postsId"    column="posts_id"    />
+        <result property="commentsContent"    column="comments_content"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectCommentsVo">
+        select comments_id, users_id, posts_id, comments_content, create_time, update_time from comments
+    </sql>
+
+    <select id="selectCommentsList" parameterType="Comments" resultMap="CommentsResult">
+        <include refid="selectCommentsVo"/>
+        <where>  
+            <if test="usersId != null "> and users_id = #{usersId}</if>
+            <if test="postsId != null "> and posts_id = #{postsId}</if>
+            <if test="commentsContent != null  and commentsContent != ''"> and comments_content = #{commentsContent}</if>
+        </where>
+    </select>
+    
+    <select id="selectCommentsByCommentsId" parameterType="Long" resultMap="CommentsResult">
+        <include refid="selectCommentsVo"/>
+        where comments_id = #{commentsId}
+    </select>
+        
+    <insert id="insertComments" parameterType="Comments" useGeneratedKeys="true" keyProperty="commentsId">
+        insert into comments
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">users_id,</if>
+            <if test="postsId != null">posts_id,</if>
+            <if test="commentsContent != null">comments_content,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">#{usersId},</if>
+            <if test="postsId != null">#{postsId},</if>
+            <if test="commentsContent != null">#{commentsContent},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateComments" parameterType="Comments">
+        update comments
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="usersId != null">users_id = #{usersId},</if>
+            <if test="postsId != null">posts_id = #{postsId},</if>
+            <if test="commentsContent != null">comments_content = #{commentsContent},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where comments_id = #{commentsId}
+    </update>
+
+    <delete id="deleteCommentsByCommentsId" parameterType="Long">
+        delete from comments where comments_id = #{commentsId}
+    </delete>
+
+    <delete id="deleteCommentsByCommentsIds" parameterType="String">
+        delete from comments where comments_id in 
+        <foreach item="commentsId" collection="array" open="(" separator="," close=")">
+            #{commentsId}
+        </foreach>
+    </delete>
+</mapper>

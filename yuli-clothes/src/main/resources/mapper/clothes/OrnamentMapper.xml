@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuli.clothes.mapper.OrnamentMapper">
+    
+    <resultMap type="Ornament" id="OrnamentResult">
+        <result property="ornamentId"    column="ornament_id"    />
+        <result property="usersId"    column="users_id"    />
+        <result property="ornamentName"    column="ornament_name"    />
+        <result property="ornamentImage"    column="ornament_image"    />
+        <result property="ornamentType"    column="ornament_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectOrnamentVo">
+        select ornament_id, users_id, ornament_name, ornament_image, ornament_type, create_time, update_time from ornament
+    </sql>
+
+    <select id="selectOrnamentList" parameterType="Ornament" resultMap="OrnamentResult">
+        <include refid="selectOrnamentVo"/>
+        <where>  
+            <if test="usersId != null "> and users_id = #{usersId}</if>
+            <if test="ornamentName != null  and ornamentName != ''"> and ornament_name like concat('%', #{ornamentName}, '%')</if>
+            <if test="ornamentImage != null "> and ornament_image = #{ornamentImage}</if>
+            <if test="ornamentType != null  and ornamentType != ''"> and ornament_type = #{ornamentType}</if>
+        </where>
+    </select>
+    
+    <select id="selectOrnamentByOrnamentId" parameterType="Long" resultMap="OrnamentResult">
+        <include refid="selectOrnamentVo"/>
+        where ornament_id = #{ornamentId}
+    </select>
+        
+    <insert id="insertOrnament" parameterType="Ornament" useGeneratedKeys="true" keyProperty="ornamentId">
+        insert into ornament
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">users_id,</if>
+            <if test="ornamentName != null">ornament_name,</if>
+            <if test="ornamentImage != null">ornament_image,</if>
+            <if test="ornamentType != null">ornament_type,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">#{usersId},</if>
+            <if test="ornamentName != null">#{ornamentName},</if>
+            <if test="ornamentImage != null">#{ornamentImage},</if>
+            <if test="ornamentType != null">#{ornamentType},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOrnament" parameterType="Ornament">
+        update ornament
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="usersId != null">users_id = #{usersId},</if>
+            <if test="ornamentName != null">ornament_name = #{ornamentName},</if>
+            <if test="ornamentImage != null">ornament_image = #{ornamentImage},</if>
+            <if test="ornamentType != null">ornament_type = #{ornamentType},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where ornament_id = #{ornamentId}
+    </update>
+
+    <delete id="deleteOrnamentByOrnamentId" parameterType="Long">
+        delete from ornament where ornament_id = #{ornamentId}
+    </delete>
+
+    <delete id="deleteOrnamentByOrnamentIds" parameterType="String">
+        delete from ornament where ornament_id in 
+        <foreach item="ornamentId" collection="array" open="(" separator="," close=")">
+            #{ornamentId}
+        </foreach>
+    </delete>
+</mapper>

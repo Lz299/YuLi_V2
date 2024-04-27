@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuli.users.mapper.StatureMapper">
+    
+    <resultMap type="Stature" id="StatureResult">
+        <result property="statureId"    column="stature_id"    />
+        <result property="age"    column="age"    />
+        <result property="height"    column="height"    />
+        <result property="weight"    column="weight"    />
+        <result property="waistline"    column="waistline"    />
+        <result property="bust"    column="bust"    />
+        <result property="hips"    column="hips"    />
+        <result property="shoulderWidth"    column="shoulder_width"    />
+        <result property="armLength"    column="arm_length"    />
+        <result property="legLength"    column="leg_length"    />
+        <result property="bodyProportions"    column="body_proportions"    />
+        <result property="somatotype"    column="somatotype"    />
+        <result property="complexion"    column="complexion"    />
+        <result property="dressHabits"    column="dress_habits"    />
+        <result property="specialNeeds"    column="special_needs"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectStatureVo">
+        select stature_id, age, height, weight, waistline, bust, hips, shoulder_width, arm_length, leg_length, body_proportions, somatotype, complexion, dress_habits, special_needs, create_time, update_time from stature
+    </sql>
+
+    <select id="selectStatureList" parameterType="Stature" resultMap="StatureResult">
+        <include refid="selectStatureVo"/>
+        <where>  
+            <if test="age != null "> and age = #{age}</if>
+            <if test="height != null "> and height = #{height}</if>
+            <if test="weight != null "> and weight = #{weight}</if>
+            <if test="waistline != null "> and waistline = #{waistline}</if>
+            <if test="bust != null "> and bust = #{bust}</if>
+            <if test="hips != null "> and hips = #{hips}</if>
+            <if test="shoulderWidth != null "> and shoulder_width = #{shoulderWidth}</if>
+            <if test="armLength != null "> and arm_length = #{armLength}</if>
+            <if test="legLength != null "> and leg_length = #{legLength}</if>
+            <if test="bodyProportions != null  and bodyProportions != ''"> and body_proportions = #{bodyProportions}</if>
+            <if test="somatotype != null  and somatotype != ''"> and somatotype = #{somatotype}</if>
+            <if test="complexion != null  and complexion != ''"> and complexion = #{complexion}</if>
+            <if test="dressHabits != null  and dressHabits != ''"> and dress_habits = #{dressHabits}</if>
+            <if test="specialNeeds != null  and specialNeeds != ''"> and special_needs = #{specialNeeds}</if>
+        </where>
+    </select>
+    
+    <select id="selectStatureByStatureId" parameterType="Long" resultMap="StatureResult">
+        <include refid="selectStatureVo"/>
+        where stature_id = #{statureId}
+    </select>
+        
+    <insert id="insertStature" parameterType="Stature" useGeneratedKeys="true" keyProperty="statureId">
+        insert into stature
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="age != null">age,</if>
+            <if test="height != null">height,</if>
+            <if test="weight != null">weight,</if>
+            <if test="waistline != null">waistline,</if>
+            <if test="bust != null">bust,</if>
+            <if test="hips != null">hips,</if>
+            <if test="shoulderWidth != null">shoulder_width,</if>
+            <if test="armLength != null">arm_length,</if>
+            <if test="legLength != null">leg_length,</if>
+            <if test="bodyProportions != null">body_proportions,</if>
+            <if test="somatotype != null">somatotype,</if>
+            <if test="complexion != null">complexion,</if>
+            <if test="dressHabits != null">dress_habits,</if>
+            <if test="specialNeeds != null">special_needs,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="age != null">#{age},</if>
+            <if test="height != null">#{height},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="waistline != null">#{waistline},</if>
+            <if test="bust != null">#{bust},</if>
+            <if test="hips != null">#{hips},</if>
+            <if test="shoulderWidth != null">#{shoulderWidth},</if>
+            <if test="armLength != null">#{armLength},</if>
+            <if test="legLength != null">#{legLength},</if>
+            <if test="bodyProportions != null">#{bodyProportions},</if>
+            <if test="somatotype != null">#{somatotype},</if>
+            <if test="complexion != null">#{complexion},</if>
+            <if test="dressHabits != null">#{dressHabits},</if>
+            <if test="specialNeeds != null">#{specialNeeds},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStature" parameterType="Stature">
+        update stature
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="age != null">age = #{age},</if>
+            <if test="height != null">height = #{height},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="waistline != null">waistline = #{waistline},</if>
+            <if test="bust != null">bust = #{bust},</if>
+            <if test="hips != null">hips = #{hips},</if>
+            <if test="shoulderWidth != null">shoulder_width = #{shoulderWidth},</if>
+            <if test="armLength != null">arm_length = #{armLength},</if>
+            <if test="legLength != null">leg_length = #{legLength},</if>
+            <if test="bodyProportions != null">body_proportions = #{bodyProportions},</if>
+            <if test="somatotype != null">somatotype = #{somatotype},</if>
+            <if test="complexion != null">complexion = #{complexion},</if>
+            <if test="dressHabits != null">dress_habits = #{dressHabits},</if>
+            <if test="specialNeeds != null">special_needs = #{specialNeeds},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where stature_id = #{statureId}
+    </update>
+
+    <delete id="deleteStatureByStatureId" parameterType="Long">
+        delete from stature where stature_id = #{statureId}
+    </delete>
+
+    <delete id="deleteStatureByStatureIds" parameterType="String">
+        delete from stature where stature_id in 
+        <foreach item="statureId" collection="array" open="(" separator="," close=")">
+            #{statureId}
+        </foreach>
+    </delete>
+</mapper>

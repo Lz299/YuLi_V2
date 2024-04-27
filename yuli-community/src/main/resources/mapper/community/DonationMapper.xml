@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuli.community.mapper.DonationMapper">
+    
+    <resultMap type="Donation" id="DonationResult">
+        <result property="donationId"    column="donation_id"    />
+        <result property="usersId"    column="users_id"    />
+        <result property="donationAddress"    column="donation_address"    />
+        <result property="usersAddress"    column="users_address"    />
+        <result property="bookingTime"    column="booking_time"    />
+    </resultMap>
+
+    <sql id="selectDonationVo">
+        select donation_id, users_id, donation_address, users_address, booking_time from donation
+    </sql>
+
+    <select id="selectDonationList" parameterType="Donation" resultMap="DonationResult">
+        <include refid="selectDonationVo"/>
+        <where>  
+            <if test="usersId != null "> and users_id = #{usersId}</if>
+            <if test="donationAddress != null  and donationAddress != ''"> and donation_address = #{donationAddress}</if>
+            <if test="usersAddress != null  and usersAddress != ''"> and users_address = #{usersAddress}</if>
+            <if test="bookingTime != null "> and booking_time = #{bookingTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectDonationByDonationId" parameterType="Long" resultMap="DonationResult">
+        <include refid="selectDonationVo"/>
+        where donation_id = #{donationId}
+    </select>
+        
+    <insert id="insertDonation" parameterType="Donation" useGeneratedKeys="true" keyProperty="donationId">
+        insert into donation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">users_id,</if>
+            <if test="donationAddress != null">donation_address,</if>
+            <if test="usersAddress != null">users_address,</if>
+            <if test="bookingTime != null">booking_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="usersId != null">#{usersId},</if>
+            <if test="donationAddress != null">#{donationAddress},</if>
+            <if test="usersAddress != null">#{usersAddress},</if>
+            <if test="bookingTime != null">#{bookingTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDonation" parameterType="Donation">
+        update donation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="usersId != null">users_id = #{usersId},</if>
+            <if test="donationAddress != null">donation_address = #{donationAddress},</if>
+            <if test="usersAddress != null">users_address = #{usersAddress},</if>
+            <if test="bookingTime != null">booking_time = #{bookingTime},</if>
+        </trim>
+        where donation_id = #{donationId}
+    </update>
+
+    <delete id="deleteDonationByDonationId" parameterType="Long">
+        delete from donation where donation_id = #{donationId}
+    </delete>
+
+    <delete id="deleteDonationByDonationIds" parameterType="String">
+        delete from donation where donation_id in 
+        <foreach item="donationId" collection="array" open="(" separator="," close=")">
+            #{donationId}
+        </foreach>
+    </delete>
+</mapper>
