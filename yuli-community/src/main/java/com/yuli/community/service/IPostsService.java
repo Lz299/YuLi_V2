@@ -58,4 +58,6 @@ public interface IPostsService
      * @return 结果
      */
     public int deletePostsByPostsId(Long postsId);
+
+    List<Posts> findAll();
 }

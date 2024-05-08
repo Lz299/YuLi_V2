@@ -59,4 +59,9 @@ public interface IUsersService
      * @return 结果
      */
     public int deleteUsersByUsersId(Long usersId);
+
+    Users login(String username);
+
+
+    String updatePassword(Users users, String qrPassword);
 }

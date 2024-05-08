@@ -2,6 +2,8 @@ package com.yuli.clothes.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.annotation.Anonymous;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/clothes/tops")
+@Anonymous
 public class TopsController extends BaseController
 {
     @Autowired
@@ -37,7 +40,7 @@ public class TopsController extends BaseController
     /**
      * 查询tops列表
      */
-    @PreAuthorize("@ss.hasPermi('clothes:tops:list')")
+
     @GetMapping("/list")
     public TableDataInfo list(Tops tops)
     {
@@ -49,7 +52,7 @@ public class TopsController extends BaseController
     /**
      * 导出tops列表
      */
-    @PreAuthorize("@ss.hasPermi('clothes:tops:export')")
+
     @Log(title = "tops", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Tops tops)
@@ -62,7 +65,7 @@ public class TopsController extends BaseController
     /**
      * 获取tops详细信息
      */
-    @PreAuthorize("@ss.hasPermi('clothes:tops:query')")
+
     @GetMapping(value = "/{topsId}")
     public AjaxResult getInfo(@PathVariable("topsId") Long topsId)
     {
@@ -72,7 +75,7 @@ public class TopsController extends BaseController
     /**
      * 新增tops
      */
-    @PreAuthorize("@ss.hasPermi('clothes:tops:add')")
+
     @Log(title = "tops", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Tops tops)
@@ -83,7 +86,7 @@ public class TopsController extends BaseController
     /**
      * 修改tops
      */
-    @PreAuthorize("@ss.hasPermi('clothes:tops:edit')")
+
     @Log(title = "tops", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Tops tops)
@@ -94,7 +97,7 @@ public class TopsController extends BaseController
     /**
      * 删除tops
      */
-    @PreAuthorize("@ss.hasPermi('clothes:tops:remove')")
+
     @Log(title = "tops", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{topsIds}")
     public AjaxResult remove(@PathVariable Long[] topsIds)

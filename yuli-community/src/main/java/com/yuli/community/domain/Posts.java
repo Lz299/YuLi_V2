@@ -1,9 +1,12 @@
 package com.yuli.community.domain;
 
+import com.yuli.users.domain.Users;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import java.util.List;
 
 /**
  * 帖子管理对象 posts
@@ -34,7 +37,35 @@ public class Posts extends BaseEntity
     @Excel(name = "帖子内容")
     private String postsContent;
 
-    public void setPostsId(Long postsId) 
+    private Users users;
+    private int likesnum;
+    private List<Comments> commentsList;
+
+    public int getLikesnum() {
+        return likesnum;
+    }
+
+    public void setLikesnum(int likesnum) {
+        this.likesnum = likesnum;
+    }
+
+    public List<Comments> getCommentsList() {
+        return commentsList;
+    }
+
+    public void setCommentsList(List<Comments> commentsList) {
+        this.commentsList = commentsList;
+    }
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
+    public void setPostsId(Long postsId)
     {
         this.postsId = postsId;
     }
@@ -90,6 +121,9 @@ public class Posts extends BaseEntity
             .append("postsContent", getPostsContent())
             .append("createTime", getCreateTime())
             .append("updateTime", getUpdateTime())
+                .append("users",getUsers())
+                .append("commentsList",getCommentsList())
+                .append("likesnum",getLikesnum())
             .toString();
     }
 }

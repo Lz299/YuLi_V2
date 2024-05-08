@@ -1,10 +1,19 @@
 package com.yuli.users.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.Pattern;
 
+import com.ruoyi.common.annotation.Anonymous;
+import com.yuli.users.domain.Result;
 import com.yuli.users.domain.Users;
 import com.yuli.users.service.IUsersService;
+import com.yuli.users.utils.JwtUtil;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,15 +39,18 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/users/users")
+@Anonymous
 public class UsersController extends BaseController
 {
     @Autowired
     private IUsersService ylUserService;
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
     /**
      * 查询屿里用户列表
      */
-    @PreAuthorize("@ss.hasPermi('users:users:list')")
+
     @GetMapping("/list")
     public TableDataInfo list(Users users)
     {
@@ -50,7 +62,7 @@ public class UsersController extends BaseController
     /**
      * 导出屿里用户列表
      */
-    @PreAuthorize("@ss.hasPermi('users:users:export')")
+
     @Log(title = "屿里用户", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Users users)
@@ -63,7 +75,7 @@ public class UsersController extends BaseController
     /**
      * 获取屿里用户详细信息
      */
-    @PreAuthorize("@ss.hasPermi('users:users:query')")
+
     @GetMapping(value = "/{usersId}")
     public AjaxResult getInfo(@PathVariable("usersId") Long usersId)
     {
@@ -73,9 +85,9 @@ public class UsersController extends BaseController
     /**
      * 新增屿里用户
      */
-    @PreAuthorize("@ss.hasPermi('users:users:add')")
+
     @Log(title = "屿里用户", businessType = BusinessType.INSERT)
-    @PostMapping
+    @PostMapping("/add")
     public AjaxResult add(@RequestBody Users users)
     {
         return toAjax(ylUserService.insertUsers(users));
@@ -84,7 +96,7 @@ public class UsersController extends BaseController
     /**
      * 修改屿里用户
      */
-    @PreAuthorize("@ss.hasPermi('users:users:edit')")
+
     @Log(title = "屿里用户", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Users users)
@@ -95,11 +107,48 @@ public class UsersController extends BaseController
     /**
      * 删除屿里用户
      */
-    @PreAuthorize("@ss.hasPermi('users:users:remove')")
+
     @Log(title = "屿里用户", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{usersIds}")
     public AjaxResult remove(@PathVariable Long[] usersIds)
     {
         return toAjax(ylUserService.deleteUsersByUsersIds(usersIds));
     }
+
+
+
+
+    @PostMapping("/login")
+    public Result<String> login(@Pattern(regexp = "^\\S{5,16}$") String username, @Pattern(regexp = "^\\S{5,16}$") String password)
+    {
+        Users loginUser = ylUserService.login(username);
+        System.out.println(username);
+        System.out.println(loginUser);
+        if(loginUser==null){
+            return Result.error("用户名错误");
+        }
+        if (password.equals(loginUser.getUsersPassword())){
+
+            Map<String,Object> map=new HashMap<>();
+            map.put("id",loginUser.getUsersId());
+            map.put("username",loginUser.getUsersName());
+            String token= JwtUtil.genToken(map);
+
+            //tokrn -> redis
+            ValueOperations<String,String> vo=stringRedisTemplate.opsForValue();
+            vo.set("token",token,1, TimeUnit.HOURS);
+
+            return Result.success(token);
+        }
+
+        return Result.error("密码错误");
+    }
+
+    @PostMapping("/update")
+    public Result<String> updatePassword(@RequestBody Users users,String qrpassword){
+        ylUserService.updatePassword(users,qrpassword);
+        return Result.success("修改成功");
+    }
+
+
 }

@@ -58,4 +58,6 @@ public interface PostsMapper
      * @return 结果
      */
     public int deletePostsByPostsIds(Long[] postsIds);
+
+    List<Posts> findAll();
 }

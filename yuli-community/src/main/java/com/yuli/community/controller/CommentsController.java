@@ -2,6 +2,8 @@ package com.yuli.community.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.annotation.Anonymous;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/community/comments")
+@Anonymous
 public class CommentsController extends BaseController
 {
     @Autowired
@@ -37,7 +40,7 @@ public class CommentsController extends BaseController
     /**
      * 查询评论管理列表
      */
-    @PreAuthorize("@ss.hasPermi('community:comments:list')")
+
     @GetMapping("/list")
     public TableDataInfo list(Comments comments)
     {

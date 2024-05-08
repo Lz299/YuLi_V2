@@ -93,4 +93,30 @@ public class UsersServiceImpl implements IUsersService
     {
         return usersMapper.deleteUsersByUsersId(usersId);
     }
+
+    @Override
+    public Users login(String username) {
+            Users loginUsers =usersMapper.login(username);
+        if (loginUsers != null) {
+
+            return loginUsers;
+        }
+        return null;
+    }
+
+
+    @Override
+    public String updatePassword(Users users, String qrPassword) {
+
+        Users oldUsers=usersMapper.selectUsersByUsersId(users.getUsersId());
+        if (!qrPassword.equals(users.getUsersPassword())){
+            return "俩次密码不一致";
+        }
+        if (!oldUsers.getUsersPassword().equals(users.getUsersPassword())){
+            return "新密码不能与旧密码一致";
+        }
+        users.setUpdateTime(DateUtils.getNowDate());
+        usersMapper.updateUsers(users);
+        return "修改成功";
+    }
 }

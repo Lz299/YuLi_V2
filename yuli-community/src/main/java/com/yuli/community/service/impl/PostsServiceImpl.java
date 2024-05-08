@@ -93,4 +93,11 @@ public class PostsServiceImpl implements IPostsService
     {
         return postsMapper.deletePostsByPostsId(postsId);
     }
+
+    @Override
+    public List<Posts> findAll() {
+     List<Posts> posts=postsMapper.findAll();
+        System.out.println(posts);
+        return posts;
+    }
 }

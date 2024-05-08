@@ -58,4 +58,6 @@ public interface LikesMapper
      * @return 结果
      */
     public int deleteLikesByLikesIds(Long[] likesIds);
+
+   public int likeNum();
 }

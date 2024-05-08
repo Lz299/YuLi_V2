@@ -76,4 +76,55 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{postsId}
         </foreach>
     </delete>
+
+    <resultMap id="findAllmap" type="posts">
+        <id column="posts_id" property="postsId"/>
+        <result column="posts_title" property="postsTitle"/>
+        <result column="posts_image" property="postsImage"/>
+        <result column="posts_content" property="postsContent"/>
+        <result column="create_time" property="createTime"/>
+        <result column="like_count" property="likesnum"></result>
+       <association property="users" javaType="users">
+           <id column="users_id" property="usersId"></id>
+           <result column="users_name" property="usersName"></result>
+           <result column="users_image" property="usersImage"></result>
+       </association>
+        <collection property="commentsList" ofType="comments">
+            <id column="comments_id" property="commentsId"></id>
+            <result column="comments_content" property="commentsContent"></result>
+        </collection>
+    </resultMap>
+
+    <select id="findAll" resultMap="findAllmap">
+        SELECT
+            p.posts_id,
+            p.posts_image,
+            p.posts_content,
+            p.posts_title,
+            c.comments_id,
+            c.comments_content,
+            u.users_id,
+            u.users_name,
+            u.users_image,
+            COUNT(l.users_id) AS like_count
+        FROM
+            posts p
+                LEFT JOIN
+            likes l ON p.posts_id = l.posts_id
+                LEFT JOIN
+            comments c on c.posts_id=p.posts_id
+                LEFT JOIN
+            users u on u.users_id=p.users_id
+        GROUP BY
+            p.posts_id,p.posts_image,
+            p.posts_content,
+            p.posts_title,
+            c.comments_id,
+            c.comments_content,
+            u.users_id,
+            u.users_name,
+            u.users_image
+        ORDER BY
+            p.posts_id;
+    </select>
 </mapper>

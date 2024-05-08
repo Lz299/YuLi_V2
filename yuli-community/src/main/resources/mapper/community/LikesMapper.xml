@@ -66,4 +66,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{likesId}
         </foreach>
     </delete>
+
+    <select id="likeNum" resultType="int" >
+        select
+    </select>
+
 </mapper>

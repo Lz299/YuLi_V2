@@ -1,7 +1,10 @@
 package com.yuli.community.controller;
 
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.annotation.Anonymous;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +32,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/community/likes")
+@Anonymous
 public class LikesController extends BaseController
 {
     @Autowired
@@ -37,7 +41,6 @@ public class LikesController extends BaseController
     /**
      * 查询点赞管理列表
      */
-    @PreAuthorize("@ss.hasPermi('community:likes:list')")
     @GetMapping("/list")
     public TableDataInfo list(Likes likes)
     {
@@ -49,7 +52,7 @@ public class LikesController extends BaseController
     /**
      * 导出点赞管理列表
      */
-    @PreAuthorize("@ss.hasPermi('community:likes:export')")
+
     @Log(title = "点赞管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Likes likes)
@@ -62,7 +65,7 @@ public class LikesController extends BaseController
     /**
      * 获取点赞管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('community:likes:query')")
+
     @GetMapping(value = "/{likesId}")
     public AjaxResult getInfo(@PathVariable("likesId") Long likesId)
     {
@@ -72,7 +75,7 @@ public class LikesController extends BaseController
     /**
      * 新增点赞管理
      */
-    @PreAuthorize("@ss.hasPermi('community:likes:add')")
+
     @Log(title = "点赞管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Likes likes)
@@ -83,7 +86,7 @@ public class LikesController extends BaseController
     /**
      * 修改点赞管理
      */
-    @PreAuthorize("@ss.hasPermi('community:likes:edit')")
+
     @Log(title = "点赞管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Likes likes)
@@ -94,11 +97,16 @@ public class LikesController extends BaseController
     /**
      * 删除点赞管理
      */
-    @PreAuthorize("@ss.hasPermi('community:likes:remove')")
+
     @Log(title = "点赞管理", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{likesIds}")
     public AjaxResult remove(@PathVariable Long[] likesIds)
     {
         return toAjax(likesService.deleteLikesByLikesIds(likesIds));
     }
+
+
+
+
+
 }

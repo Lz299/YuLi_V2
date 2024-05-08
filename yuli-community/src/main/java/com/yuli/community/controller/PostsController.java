@@ -2,6 +2,8 @@ package com.yuli.community.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.annotation.Anonymous;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/community/posts")
+@Anonymous
 public class PostsController extends BaseController
 {
     @Autowired
@@ -37,7 +40,7 @@ public class PostsController extends BaseController
     /**
      * 查询帖子管理列表
      */
-    @PreAuthorize("@ss.hasPermi('community:posts:list')")
+
     @GetMapping("/list")
     public TableDataInfo list(Posts posts)
     {
@@ -49,7 +52,7 @@ public class PostsController extends BaseController
     /**
      * 导出帖子管理列表
      */
-    @PreAuthorize("@ss.hasPermi('community:posts:export')")
+
     @Log(title = "帖子管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Posts posts)
@@ -62,7 +65,7 @@ public class PostsController extends BaseController
     /**
      * 获取帖子管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('community:posts:query')")
+
     @GetMapping(value = "/{postsId}")
     public AjaxResult getInfo(@PathVariable("postsId") Long postsId)
     {
@@ -72,7 +75,7 @@ public class PostsController extends BaseController
     /**
      * 新增帖子管理
      */
-    @PreAuthorize("@ss.hasPermi('community:posts:add')")
+
     @Log(title = "帖子管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Posts posts)
@@ -83,7 +86,7 @@ public class PostsController extends BaseController
     /**
      * 修改帖子管理
      */
-    @PreAuthorize("@ss.hasPermi('community:posts:edit')")
+
     @Log(title = "帖子管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Posts posts)
@@ -94,11 +97,18 @@ public class PostsController extends BaseController
     /**
      * 删除帖子管理
      */
-    @PreAuthorize("@ss.hasPermi('community:posts:remove')")
+
     @Log(title = "帖子管理", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{postsIds}")
     public AjaxResult remove(@PathVariable Long[] postsIds)
     {
         return toAjax(postsService.deletePostsByPostsIds(postsIds));
     }
+
+    @GetMapping("/findpost")
+    public List<Posts> findPostAll(){
+        return postsService.findAll();
+    }
+
+
 }
