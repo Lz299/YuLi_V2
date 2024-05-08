@@ -77,6 +77,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
+    <select id="selectPostsListByUserId" parameterType="String" resultMap="PostsResult">
+        <include refid="selectPostsVo"/>
+        <where>
+            <if test="usersId != null "> and users_id = #{usersId}</if>
+        </where>
+    </select>
+
+    <update id="updatePostsByUserId" parameterType="Posts">
+        update posts
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="postsTitle != null">posts_title = #{postsTitle},</if>
+            <if test="postsImage != null">posts_image = #{postsImage},</if>
+            <if test="postsContent != null">posts_content = #{postsContent},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where posts_id = #{postsId} and users_id = #{usersId}
+    </update>
+
+
     <resultMap id="findAllmap" type="posts">
         <id column="posts_id" property="postsId"/>
         <result column="posts_title" property="postsTitle"/>

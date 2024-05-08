@@ -7,19 +7,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="Donation" id="DonationResult">
         <result property="donationId"    column="donation_id"    />
         <result property="usersId"    column="users_id"    />
+        <result property="clothes"    column="clothes"    />
         <result property="donationAddress"    column="donation_address"    />
         <result property="usersAddress"    column="users_address"    />
         <result property="bookingTime"    column="booking_time"    />
     </resultMap>
 
     <sql id="selectDonationVo">
-        select donation_id, users_id, donation_address, users_address, booking_time from donation
+        select donation_id, users_id, clothes, donation_address, users_address, booking_time from donation
     </sql>
 
     <select id="selectDonationList" parameterType="Donation" resultMap="DonationResult">
         <include refid="selectDonationVo"/>
         <where>  
             <if test="usersId != null "> and users_id = #{usersId}</if>
+            <if test="clothes != null  and clothes != ''"> and clothes = #{clothes}</if>
             <if test="donationAddress != null  and donationAddress != ''"> and donation_address = #{donationAddress}</if>
             <if test="usersAddress != null  and usersAddress != ''"> and users_address = #{usersAddress}</if>
             <if test="bookingTime != null "> and booking_time = #{bookingTime}</if>
@@ -35,12 +37,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into donation
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="usersId != null">users_id,</if>
+            <if test="clothes != null">clothes,</if>
             <if test="donationAddress != null">donation_address,</if>
             <if test="usersAddress != null">users_address,</if>
             <if test="bookingTime != null">booking_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="usersId != null">#{usersId},</if>
+            <if test="clothes != null">#{clothes},</if>
             <if test="donationAddress != null">#{donationAddress},</if>
             <if test="usersAddress != null">#{usersAddress},</if>
             <if test="bookingTime != null">#{bookingTime},</if>
@@ -51,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update donation
         <trim prefix="SET" suffixOverrides=",">
             <if test="usersId != null">users_id = #{usersId},</if>
+            <if test="clothes != null">clothes = #{clothes},</if>
             <if test="donationAddress != null">donation_address = #{donationAddress},</if>
             <if test="usersAddress != null">users_address = #{usersAddress},</if>
             <if test="bookingTime != null">booking_time = #{bookingTime},</if>
@@ -68,4 +73,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{donationId}
         </foreach>
     </delete>
+
+
+
+
 </mapper>

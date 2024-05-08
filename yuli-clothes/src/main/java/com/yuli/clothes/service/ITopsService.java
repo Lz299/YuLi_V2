@@ -1,6 +1,8 @@
 package com.yuli.clothes.service;
 
 import java.util.List;
+
+import com.yuli.clothes.domain.Hats;
 import com.yuli.clothes.domain.Tops;
 
 /**
@@ -58,4 +60,8 @@ public interface ITopsService
      * @return 结果
      */
     public int deleteTopsByTopsId(Long topsId);
+
+    List<Tops> findTopsByUsersId(String users_id);
+
+    int updateTopsByUserId(Tops tops);
 }

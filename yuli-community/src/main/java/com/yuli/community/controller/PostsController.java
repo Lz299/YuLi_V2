@@ -31,7 +31,6 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/community/posts")
-@Anonymous
 public class PostsController extends BaseController
 {
     @Autowired
@@ -111,4 +110,12 @@ public class PostsController extends BaseController
     }
 
 
+
+    public List<Posts> selectPostsListByUserId(String users_id){
+        return postsService.selectPostsListByUserId(users_id);
+    }
+
+    public int updatePostsByUserId(Posts posts){
+        return postsService.updatePostsByUserId(posts);
+    }
 }

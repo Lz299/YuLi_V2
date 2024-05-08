@@ -2,6 +2,7 @@ package com.yuli.clothes.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.yuli.clothes.domain.Hats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yuli.clothes.mapper.PantsMapper;
@@ -92,5 +93,15 @@ public class PantsServiceImpl implements IPantsService
     public int deletePantsByPantsId(Long pantsId)
     {
         return pantsMapper.deletePantsByPantsId(pantsId);
+    }
+
+    @Override
+    public List<Pants> findByUsersId(String users_id) {
+        return pantsMapper.findByUsersId(users_id);
+    }
+
+    @Override
+    public int updatePantsByUserId(Pants pants) {
+        return pantsMapper.updatePantsByUserId(pants);
     }
 }

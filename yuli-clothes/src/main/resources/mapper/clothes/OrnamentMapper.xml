@@ -76,4 +76,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{ornamentId}
         </foreach>
     </delete>
+
+    <select id="findByUsersId" parameterType="String" resultMap="OrnamentResult">
+        <include refid="selectOrnamentVo"/>
+        <where>
+            <if test="usersId != null "> and users_id = #{usersId}</if>
+        </where>
+    </select>
+
+    <update id="updateOrnamentsByUserId" parameterType="Ornament">
+        update ornament
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ornamentName != null">ornament_name = #{ornamentName},</if>
+            <if test="ornamentImage != null">ornament_image = #{ornamentImage},</if>
+            <if test="ornamentType != null">ornament_type = #{ornamentType},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where ornament_id = #{ornamentId} and users_id = #{usersId}
+    </update>
 </mapper>

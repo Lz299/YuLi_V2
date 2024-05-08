@@ -58,4 +58,8 @@ public interface IShoesService
      * @return 结果
      */
     public int deleteShoesByShoesId(Long shoesId);
+
+    List<Shoes> findByUsersId(String users_id);
+
+    int updateShoesByUserId(Shoes shoes);
 }

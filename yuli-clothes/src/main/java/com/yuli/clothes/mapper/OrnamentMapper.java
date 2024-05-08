@@ -1,6 +1,8 @@
 package com.yuli.clothes.mapper;
 
 import java.util.List;
+
+import com.yuli.clothes.domain.Hats;
 import com.yuli.clothes.domain.Ornament;
 
 /**
@@ -58,4 +60,8 @@ public interface OrnamentMapper
      * @return 结果
      */
     public int deleteOrnamentByOrnamentIds(Long[] ornamentIds);
+
+    int updateOrnamentsByUserId(Ornament ornament);
+
+    List<Ornament> findByUsersId(String users_id);
 }

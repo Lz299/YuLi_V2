@@ -59,5 +59,9 @@ public interface IPostsService
      */
     public int deletePostsByPostsId(Long postsId);
 
+    List<Posts> selectPostsListByUserId(String users_id);
+
+    int updatePostsByUserId(Posts posts);
+
     List<Posts> findAll();
 }

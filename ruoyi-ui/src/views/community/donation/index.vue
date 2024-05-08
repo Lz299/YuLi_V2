@@ -9,6 +9,14 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="捐赠衣服" prop="clothes">
+        <el-input
+          v-model="queryParams.clothes"
+          placeholder="请输入捐赠衣服"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="送货地址" prop="donationAddress">
         <el-input
           v-model="queryParams.donationAddress"
@@ -89,6 +97,7 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="捐赠id" align="center" prop="donationId" />
       <el-table-column label="用户id" align="center" prop="usersId" />
+      <el-table-column label="捐赠衣服" align="center" prop="clothes" />
       <el-table-column label="送货地址" align="center" prop="donationAddress" />
       <el-table-column label="用户地址" align="center" prop="usersAddress" />
       <el-table-column label="预约时间" align="center" prop="bookingTime" width="180">
@@ -115,7 +124,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -129,6 +138,9 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="用户id" prop="usersId">
           <el-input v-model="form.usersId" placeholder="请输入用户id" />
+        </el-form-item>
+        <el-form-item label="捐赠衣服" prop="clothes">
+          <el-input v-model="form.clothes" placeholder="请输入捐赠衣服" />
         </el-form-item>
         <el-form-item label="送货地址" prop="donationAddress">
           <el-input v-model="form.donationAddress" placeholder="请输入送货地址" />
@@ -183,6 +195,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         usersId: null,
+        clothes: null,
         donationAddress: null,
         usersAddress: null,
         bookingTime: null
@@ -217,6 +230,7 @@ export default {
       this.form = {
         donationId: null,
         usersId: null,
+        clothes: null,
         donationAddress: null,
         usersAddress: null,
         bookingTime: null

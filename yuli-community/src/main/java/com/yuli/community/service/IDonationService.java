@@ -7,8 +7,9 @@ import com.yuli.community.domain.Donation;
  * 捐赠管理Service接口
  * 
  * @author lz
- * @date 2024-04-27
+ * @date 2024-05-08
  */
+
 public interface IDonationService 
 {
     /**

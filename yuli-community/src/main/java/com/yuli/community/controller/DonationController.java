@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 捐赠管理Controller
  * 
  * @author lz
- * @date 2024-04-27
+ * @date 2024-05-08
  */
 @RestController
 @RequestMapping("/community/donation")
@@ -37,7 +37,6 @@ public class DonationController extends BaseController
     /**
      * 查询捐赠管理列表
      */
-    @PreAuthorize("@ss.hasPermi('community:donation:list')")
     @GetMapping("/list")
     public TableDataInfo list(Donation donation)
     {
@@ -49,7 +48,6 @@ public class DonationController extends BaseController
     /**
      * 导出捐赠管理列表
      */
-    @PreAuthorize("@ss.hasPermi('community:donation:export')")
     @Log(title = "捐赠管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Donation donation)
@@ -62,7 +60,7 @@ public class DonationController extends BaseController
     /**
      * 获取捐赠管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('community:donation:query')")
+
     @GetMapping(value = "/{donationId}")
     public AjaxResult getInfo(@PathVariable("donationId") Long donationId)
     {
@@ -72,7 +70,6 @@ public class DonationController extends BaseController
     /**
      * 新增捐赠管理
      */
-    @PreAuthorize("@ss.hasPermi('community:donation:add')")
     @Log(title = "捐赠管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Donation donation)
@@ -83,7 +80,6 @@ public class DonationController extends BaseController
     /**
      * 修改捐赠管理
      */
-    @PreAuthorize("@ss.hasPermi('community:donation:edit')")
     @Log(title = "捐赠管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Donation donation)
@@ -94,7 +90,7 @@ public class DonationController extends BaseController
     /**
      * 删除捐赠管理
      */
-    @PreAuthorize("@ss.hasPermi('community:donation:remove')")
+
     @Log(title = "捐赠管理", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{donationIds}")
     public AjaxResult remove(@PathVariable Long[] donationIds)

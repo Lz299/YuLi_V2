@@ -95,4 +95,28 @@ public class HatsServiceImpl implements IHatsService
     {
         return hatsMapper.deleteHatsByHatsId(hatsId);
     }
+
+    /**
+     * 根据用户id查询帽子库
+     *
+     * @param users_id 用户的id
+     * @return 帽子库
+     */
+    @Override
+    public List<Hats> findByUsersId(String users_id) {
+        return hatsMapper.findByUsersId(users_id);
+    }
+
+    /**
+     * 根据用户id和帽子id进行修改
+     *
+     * @param hats
+     * @return 结果
+     */
+    @Override
+    public int updateHatsByUserId(Hats hats) {
+        return hatsMapper.updateHatsByUserId(hats);
+    }
+
+
 }

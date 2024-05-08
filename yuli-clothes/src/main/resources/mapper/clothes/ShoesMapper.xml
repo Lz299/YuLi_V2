@@ -76,4 +76,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{shoesId}
         </foreach>
     </delete>
+
+    <select id="findByUsersId" parameterType="String" resultMap="ShoesResult">
+        <include refid="selectShoesVo"/>
+        <where>
+            <if test="usersId != null "> and users_id = #{usersId}</if>
+        </where>
+    </select>
+
+    <update id="updateShoesByUserId" parameterType="Shoes">
+        update shoes
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="usersId != null">users_id = #{usersId},</if>
+            <if test="shoesName != null">shoes_name = #{shoesName},</if>
+            <if test="shoesImage != null">shoes_image = #{shoesImage},</if>
+            <if test="shoesType != null">shoes_type = #{shoesType},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where shoes_id = #{shoesId} and users_id = #{usersId}
+    </update>
+
 </mapper>

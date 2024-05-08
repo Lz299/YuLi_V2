@@ -60,5 +60,11 @@ public interface UsersMapper
      */
     public int deleteUsersByUsersIds(Long[] usersIds);
 
+
+
+
+
+
+
     Users login(String username);
 }

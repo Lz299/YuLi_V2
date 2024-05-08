@@ -59,5 +59,9 @@ public interface PostsMapper
      */
     public int deletePostsByPostsIds(Long[] postsIds);
 
+    List<Posts> selectPostsListByUserId(String users_id);
+
+    int updatePostsByUserId(Posts posts);
+
     List<Posts> findAll();
 }

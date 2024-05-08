@@ -100,4 +100,14 @@ public class PostsServiceImpl implements IPostsService
         System.out.println(posts);
         return posts;
     }
+
+    @Override
+    public List<Posts> selectPostsListByUserId(String users_id) {
+        return postsMapper.selectPostsListByUserId(users_id);
+    }
+
+    @Override
+    public int updatePostsByUserId(Posts posts) {
+        return postsMapper.updatePostsByUserId(posts);
+    }
 }

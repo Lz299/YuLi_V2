@@ -58,4 +58,8 @@ public interface PantsMapper
      * @return 结果
      */
     public int deletePantsByPantsIds(Long[] pantsIds);
+
+    List<Pants> findByUsersId(String users_id);
+
+    int updatePantsByUserId(Pants pants);
 }

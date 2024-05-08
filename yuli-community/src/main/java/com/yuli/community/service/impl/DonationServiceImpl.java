@@ -11,7 +11,7 @@ import com.yuli.community.service.IDonationService;
  * 捐赠管理Service业务层处理
  * 
  * @author lz
- * @date 2024-04-27
+ * @date 2024-05-08
  */
 @Service("donationService")
 public class DonationServiceImpl implements IDonationService 

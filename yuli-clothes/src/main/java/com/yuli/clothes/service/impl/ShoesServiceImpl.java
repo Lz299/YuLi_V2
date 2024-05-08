@@ -93,4 +93,14 @@ public class ShoesServiceImpl implements IShoesService
     {
         return shoesMapper.deleteShoesByShoesId(shoesId);
     }
+
+    @Override
+    public List<Shoes> findByUsersId(String users_id) {
+        return shoesMapper.findByUsersId(users_id);
+    }
+
+    @Override
+    public int updateShoesByUserId(Shoes shoes) {
+        return shoesMapper.updateShoesByUserId(shoes);
+    }
 }

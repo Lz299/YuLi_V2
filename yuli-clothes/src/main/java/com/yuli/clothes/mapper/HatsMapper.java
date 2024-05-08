@@ -60,4 +60,21 @@ public interface HatsMapper
      * @return 结果
      */
     public int deleteHatsByHatsIds(Long[] hatsIds);
+
+    /**
+     * 根据用户查询对应的帽子库
+     * @param users_id 用户的id
+     * @return 帽子库
+     */
+    public List<Hats> findByUsersId(String users_id);
+
+    /**
+     * 根据用户id和帽子id修改
+     * @param hats
+     * @return 结果
+     */
+    public int updateHatsByUserId(Hats hats);
+
+
+
 }

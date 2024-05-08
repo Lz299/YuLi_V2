@@ -1,6 +1,8 @@
 package com.yuli.clothes.mapper;
 
 import java.util.List;
+
+import com.yuli.clothes.domain.Hats;
 import com.yuli.clothes.domain.Tops;
 
 /**
@@ -58,4 +60,7 @@ public interface TopsMapper
      * @return 结果
      */
     public int deleteTopsByTopsIds(Long[] topsIds);
+
+    List<Tops> findByUsersId(String users_id);
+    int updateTopsByUserId(Tops tops);
 }

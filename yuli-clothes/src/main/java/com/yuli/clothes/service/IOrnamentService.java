@@ -1,6 +1,8 @@
 package com.yuli.clothes.service;
 
 import java.util.List;
+
+import com.yuli.clothes.domain.Hats;
 import com.yuli.clothes.domain.Ornament;
 
 /**
@@ -58,4 +60,8 @@ public interface IOrnamentService
      * @return 结果
      */
     public int deleteOrnamentByOrnamentId(Long ornamentId);
+
+    List<Ornament> findByUsersId(String users_id);
+
+    int updateOrnamentsByUserId(Ornament ornament);
 }

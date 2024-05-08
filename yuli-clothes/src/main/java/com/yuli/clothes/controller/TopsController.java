@@ -3,6 +3,8 @@ package com.yuli.clothes.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yuli.clothes.domain.Hats;
+
 import com.ruoyi.common.annotation.Anonymous;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,4 +106,21 @@ public class TopsController extends BaseController
     {
         return toAjax(topsService.deleteTopsByTopsIds(topsIds));
     }
+
+    /**
+     * 根据用户id查询上衣库
+     * @param users_id
+     * @return 上衣库
+     */
+    @RequestMapping("/findByUsersId")
+    public List<Tops> findByUsersId(String users_id){
+        return topsService.findTopsByUsersId(users_id);
+    }
+
+
+    @RequestMapping("/updateTopsByUserId")
+    public int updateTopsByUserId(Tops tops){
+        return topsService.updateTopsByUserId(tops);
+    }
+
 }

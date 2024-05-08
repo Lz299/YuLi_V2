@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Pattern;
 
 import com.ruoyi.common.annotation.Anonymous;
+import com.ruoyi.common.annotation.Anonymous;
 import com.yuli.users.domain.Result;
 import com.yuli.users.domain.Users;
 import com.yuli.users.service.IUsersService;
@@ -50,6 +51,7 @@ public class UsersController extends BaseController
     /**
      * 查询屿里用户列表
      */
+//    @PreAuthorize("@ss.hasPermi('users:users:list')")
 
     @GetMapping("/list")
     public TableDataInfo list(Users users)

@@ -11,7 +11,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 捐赠管理对象 donation
  * 
  * @author lz
- * @date 2024-04-27
+ * @date 2024-05-08
  */
 public class Donation extends BaseEntity
 {
@@ -23,6 +23,10 @@ public class Donation extends BaseEntity
     /** 用户id */
     @Excel(name = "用户id")
     private Long usersId;
+
+    /** 捐赠衣服 */
+    @Excel(name = "捐赠衣服")
+    private String clothes;
 
     /** 送货地址 */
     @Excel(name = "送货地址")
@@ -54,6 +58,15 @@ public class Donation extends BaseEntity
     public Long getUsersId() 
     {
         return usersId;
+    }
+    public void setClothes(String clothes) 
+    {
+        this.clothes = clothes;
+    }
+
+    public String getClothes() 
+    {
+        return clothes;
     }
     public void setDonationAddress(String donationAddress) 
     {
@@ -88,6 +101,7 @@ public class Donation extends BaseEntity
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("donationId", getDonationId())
             .append("usersId", getUsersId())
+            .append("clothes", getClothes())
             .append("donationAddress", getDonationAddress())
             .append("usersAddress", getUsersAddress())
             .append("bookingTime", getBookingTime())

@@ -37,7 +37,7 @@ public class HatsController extends BaseController
     /**
      * 查询上衣管理列表
      */
-    @PreAuthorize("@ss.hasPermi('clothes:hats:list')")
+//    @PreAuthorize("@ss.hasPermi('clothes:hats:list')")
     @GetMapping("/list")
     public TableDataInfo list(Hats hats)
     {
@@ -49,7 +49,7 @@ public class HatsController extends BaseController
     /**
      * 导出上衣管理列表
      */
-    @PreAuthorize("@ss.hasPermi('clothes:hats:export')")
+//    @PreAuthorize("@ss.hasPermi('clothes:hats:export')")
     @Log(title = "上衣管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Hats hats)
@@ -62,7 +62,7 @@ public class HatsController extends BaseController
     /**
      * 获取上衣管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('clothes:hats:query')")
+//    @PreAuthorize("@ss.hasPermi('clothes:hats:query')")
     @GetMapping(value = "/{hatsId}")
     public AjaxResult getInfo(@PathVariable("hatsId") Long hatsId)
     {
@@ -72,7 +72,7 @@ public class HatsController extends BaseController
     /**
      * 新增上衣管理
      */
-    @PreAuthorize("@ss.hasPermi('clothes:hats:add')")
+//    @PreAuthorize("@ss.hasPermi('clothes:hats:add')")
     @Log(title = "上衣管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Hats hats)
@@ -83,7 +83,7 @@ public class HatsController extends BaseController
     /**
      * 修改上衣管理
      */
-    @PreAuthorize("@ss.hasPermi('clothes:hats:edit')")
+//    @PreAuthorize("@ss.hasPermi('clothes:hats:edit')")
     @Log(title = "上衣管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Hats hats)
@@ -94,11 +94,34 @@ public class HatsController extends BaseController
     /**
      * 删除上衣管理
      */
-    @PreAuthorize("@ss.hasPermi('clothes:hats:remove')")
+//    @PreAuthorize("@ss.hasPermi('clothes:hats:remove')")
     @Log(title = "上衣管理", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{hatsIds}")
     public AjaxResult remove(@PathVariable Long[] hatsIds)
     {
         return toAjax(hatsService.deleteHatsByHatsIds(hatsIds));
     }
+
+    /**
+     * 根据用户id查询帽子库
+     * @param users_id
+     * @return 帽子库
+     */
+    @RequestMapping("/findHatsByUsersId")
+    public List<Hats> findHatsByUsersId(String users_id){
+        return hatsService.findByUsersId(users_id);
+    }
+
+    /**
+     * 根据用户id和帽子id修改
+     * @param hats
+     * @return 结果
+     */
+    @RequestMapping("/updateHatsByUserId")
+    public int updateHatsByUserId(Hats hats){
+        return hatsService.updateHatsByUserId(hats);
+    }
+
+
+
 }
