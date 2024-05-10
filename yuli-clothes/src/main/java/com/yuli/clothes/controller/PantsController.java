@@ -2,6 +2,8 @@ package com.yuli.clothes.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.annotation.Anonymous;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/clothes/pants")
+@Anonymous
 public class PantsController extends BaseController
 {
     @Autowired
@@ -37,7 +40,7 @@ public class PantsController extends BaseController
     /**
      * 查询裤子管理列表
      */
-    @PreAuthorize("@ss.hasPermi('clothes:pants:list')")
+
     @GetMapping("/list")
     public TableDataInfo list(Pants pants)
     {
@@ -49,7 +52,7 @@ public class PantsController extends BaseController
     /**
      * 导出裤子管理列表
      */
-    @PreAuthorize("@ss.hasPermi('clothes:pants:export')")
+
     @Log(title = "裤子管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Pants pants)
@@ -62,7 +65,7 @@ public class PantsController extends BaseController
     /**
      * 获取裤子管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('clothes:pants:query')")
+
     @GetMapping(value = "/{pantsId}")
     public AjaxResult getInfo(@PathVariable("pantsId") Long pantsId)
     {
@@ -72,7 +75,7 @@ public class PantsController extends BaseController
     /**
      * 新增裤子管理
      */
-    @PreAuthorize("@ss.hasPermi('clothes:pants:add')")
+
     @Log(title = "裤子管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Pants pants)
@@ -83,7 +86,7 @@ public class PantsController extends BaseController
     /**
      * 修改裤子管理
      */
-    @PreAuthorize("@ss.hasPermi('clothes:pants:edit')")
+
     @Log(title = "裤子管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Pants pants)
@@ -94,7 +97,7 @@ public class PantsController extends BaseController
     /**
      * 删除裤子管理
      */
-    @PreAuthorize("@ss.hasPermi('clothes:pants:remove')")
+
     @Log(title = "裤子管理", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{pantsIds}")
     public AjaxResult remove(@PathVariable Long[] pantsIds)

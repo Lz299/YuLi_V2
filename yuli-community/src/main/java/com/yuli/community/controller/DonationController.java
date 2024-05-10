@@ -2,6 +2,8 @@ package com.yuli.community.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.annotation.Anonymous;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/community/donation")
+@Anonymous
 public class DonationController extends BaseController
 {
     @Autowired
@@ -37,7 +40,7 @@ public class DonationController extends BaseController
     /**
      * 查询捐赠管理列表
      */
-    @PreAuthorize("@ss.hasPermi('community:donation:list')")
+
     @GetMapping("/list")
     public TableDataInfo list(Donation donation)
     {
@@ -49,7 +52,7 @@ public class DonationController extends BaseController
     /**
      * 导出捐赠管理列表
      */
-    @PreAuthorize("@ss.hasPermi('community:donation:export')")
+
     @Log(title = "捐赠管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Donation donation)
@@ -62,7 +65,7 @@ public class DonationController extends BaseController
     /**
      * 获取捐赠管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('community:donation:query')")
+
     @GetMapping(value = "/{donationId}")
     public AjaxResult getInfo(@PathVariable("donationId") Long donationId)
     {
@@ -72,7 +75,7 @@ public class DonationController extends BaseController
     /**
      * 新增捐赠管理
      */
-    @PreAuthorize("@ss.hasPermi('community:donation:add')")
+
     @Log(title = "捐赠管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Donation donation)
@@ -83,7 +86,7 @@ public class DonationController extends BaseController
     /**
      * 修改捐赠管理
      */
-    @PreAuthorize("@ss.hasPermi('community:donation:edit')")
+
     @Log(title = "捐赠管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Donation donation)
@@ -94,7 +97,7 @@ public class DonationController extends BaseController
     /**
      * 删除捐赠管理
      */
-    @PreAuthorize("@ss.hasPermi('community:donation:remove')")
+
     @Log(title = "捐赠管理", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{donationIds}")
     public AjaxResult remove(@PathVariable Long[] donationIds)

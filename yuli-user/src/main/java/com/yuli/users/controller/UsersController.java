@@ -119,11 +119,11 @@ public class UsersController extends BaseController
 
 
     @PostMapping("/login")
-    public Result<String> login(@Pattern(regexp = "^\\S{5,16}$") String username, @Pattern(regexp = "^\\S{5,16}$") String password)
+    public Result<Users> login(@Pattern(regexp = "^\\S{5,16}$") String username, @Pattern(regexp = "^\\S{5,16}$") String password)
     {
         Users loginUser = ylUserService.login(username);
         System.out.println(username);
-        System.out.println(loginUser);
+        System.out.println(password);
         if(loginUser==null){
             return Result.error("用户名错误");
         }
@@ -138,7 +138,7 @@ public class UsersController extends BaseController
             ValueOperations<String,String> vo=stringRedisTemplate.opsForValue();
             vo.set("token",token,1, TimeUnit.HOURS);
 
-            return Result.success(token);
+            return Result.success(loginUser);
         }
 
         return Result.error("密码错误");

@@ -52,7 +52,7 @@ public class CommentsController extends BaseController
     /**
      * 导出评论管理列表
      */
-    @PreAuthorize("@ss.hasPermi('community:comments:export')")
+
     @Log(title = "评论管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Comments comments)
@@ -65,7 +65,7 @@ public class CommentsController extends BaseController
     /**
      * 获取评论管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('community:comments:query')")
+
     @GetMapping(value = "/{commentsId}")
     public AjaxResult getInfo(@PathVariable("commentsId") Long commentsId)
     {
@@ -75,7 +75,7 @@ public class CommentsController extends BaseController
     /**
      * 新增评论管理
      */
-    @PreAuthorize("@ss.hasPermi('community:comments:add')")
+
     @Log(title = "评论管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Comments comments)
@@ -86,7 +86,7 @@ public class CommentsController extends BaseController
     /**
      * 修改评论管理
      */
-    @PreAuthorize("@ss.hasPermi('community:comments:edit')")
+
     @Log(title = "评论管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Comments comments)
@@ -97,7 +97,7 @@ public class CommentsController extends BaseController
     /**
      * 删除评论管理
      */
-    @PreAuthorize("@ss.hasPermi('community:comments:remove')")
+
     @Log(title = "评论管理", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{commentsIds}")
     public AjaxResult remove(@PathVariable Long[] commentsIds)

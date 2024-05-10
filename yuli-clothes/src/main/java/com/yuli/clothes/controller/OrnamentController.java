@@ -2,6 +2,8 @@ package com.yuli.clothes.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.annotation.Anonymous;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/clothes/ornament")
+@Anonymous
 public class OrnamentController extends BaseController
 {
     @Autowired
@@ -37,7 +40,7 @@ public class OrnamentController extends BaseController
     /**
      * 查询装饰管理列表
      */
-    @PreAuthorize("@ss.hasPermi('clothes:ornament:list')")
+
     @GetMapping("/list")
     public TableDataInfo list(Ornament ornament)
     {
@@ -49,7 +52,7 @@ public class OrnamentController extends BaseController
     /**
      * 导出装饰管理列表
      */
-    @PreAuthorize("@ss.hasPermi('clothes:ornament:export')")
+
     @Log(title = "装饰管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Ornament ornament)
@@ -62,7 +65,7 @@ public class OrnamentController extends BaseController
     /**
      * 获取装饰管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('clothes:ornament:query')")
+
     @GetMapping(value = "/{ornamentId}")
     public AjaxResult getInfo(@PathVariable("ornamentId") Long ornamentId)
     {
@@ -72,7 +75,7 @@ public class OrnamentController extends BaseController
     /**
      * 新增装饰管理
      */
-    @PreAuthorize("@ss.hasPermi('clothes:ornament:add')")
+
     @Log(title = "装饰管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Ornament ornament)
@@ -83,7 +86,7 @@ public class OrnamentController extends BaseController
     /**
      * 修改装饰管理
      */
-    @PreAuthorize("@ss.hasPermi('clothes:ornament:edit')")
+
     @Log(title = "装饰管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Ornament ornament)
@@ -94,7 +97,7 @@ public class OrnamentController extends BaseController
     /**
      * 删除装饰管理
      */
-    @PreAuthorize("@ss.hasPermi('clothes:ornament:remove')")
+
     @Log(title = "装饰管理", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ornamentIds}")
     public AjaxResult remove(@PathVariable Long[] ornamentIds)

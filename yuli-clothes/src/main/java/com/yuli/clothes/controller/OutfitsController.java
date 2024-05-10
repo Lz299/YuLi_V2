@@ -2,6 +2,8 @@ package com.yuli.clothes.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.annotation.Anonymous;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/clothes/outfits")
+@Anonymous
 public class OutfitsController extends BaseController
 {
     @Autowired
@@ -37,7 +40,7 @@ public class OutfitsController extends BaseController
     /**
      * 查询搭配管理列表
      */
-    @PreAuthorize("@ss.hasPermi('clothes:outfits:list')")
+
     @GetMapping("/list")
     public TableDataInfo list(Outfits outfits)
     {
@@ -49,7 +52,7 @@ public class OutfitsController extends BaseController
     /**
      * 导出搭配管理列表
      */
-    @PreAuthorize("@ss.hasPermi('clothes:outfits:export')")
+
     @Log(title = "搭配管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Outfits outfits)
@@ -62,7 +65,7 @@ public class OutfitsController extends BaseController
     /**
      * 获取搭配管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('clothes:outfits:query')")
+
     @GetMapping(value = "/{outfitsId}")
     public AjaxResult getInfo(@PathVariable("outfitsId") Long outfitsId)
     {
@@ -72,7 +75,7 @@ public class OutfitsController extends BaseController
     /**
      * 新增搭配管理
      */
-    @PreAuthorize("@ss.hasPermi('clothes:outfits:add')")
+
     @Log(title = "搭配管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Outfits outfits)
@@ -83,7 +86,7 @@ public class OutfitsController extends BaseController
     /**
      * 修改搭配管理
      */
-    @PreAuthorize("@ss.hasPermi('clothes:outfits:edit')")
+
     @Log(title = "搭配管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Outfits outfits)
@@ -94,7 +97,7 @@ public class OutfitsController extends BaseController
     /**
      * 删除搭配管理
      */
-    @PreAuthorize("@ss.hasPermi('clothes:outfits:remove')")
+
     @Log(title = "搭配管理", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{outfitsIds}")
     public AjaxResult remove(@PathVariable Long[] outfitsIds)

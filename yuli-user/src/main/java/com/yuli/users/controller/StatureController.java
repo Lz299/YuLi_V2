@@ -2,6 +2,8 @@ package com.yuli.users.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.annotation.Anonymous;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/users/stature")
+@Anonymous
 public class StatureController extends BaseController
 {
     @Autowired
@@ -37,7 +40,7 @@ public class StatureController extends BaseController
     /**
      * 查询身材管理列表
      */
-    @PreAuthorize("@ss.hasPermi('users:stature:list')")
+
     @GetMapping("/list")
     public TableDataInfo list(Stature stature)
     {
@@ -49,7 +52,7 @@ public class StatureController extends BaseController
     /**
      * 导出身材管理列表
      */
-    @PreAuthorize("@ss.hasPermi('users:stature:export')")
+
     @Log(title = "身材管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Stature stature)
@@ -62,7 +65,7 @@ public class StatureController extends BaseController
     /**
      * 获取身材管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('users:stature:query')")
+
     @GetMapping(value = "/{statureId}")
     public AjaxResult getInfo(@PathVariable("statureId") Long statureId)
     {
@@ -72,7 +75,7 @@ public class StatureController extends BaseController
     /**
      * 新增身材管理
      */
-    @PreAuthorize("@ss.hasPermi('users:stature:add')")
+
     @Log(title = "身材管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Stature stature)
@@ -83,7 +86,7 @@ public class StatureController extends BaseController
     /**
      * 修改身材管理
      */
-    @PreAuthorize("@ss.hasPermi('users:stature:edit')")
+
     @Log(title = "身材管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Stature stature)
@@ -94,7 +97,7 @@ public class StatureController extends BaseController
     /**
      * 删除身材管理
      */
-    @PreAuthorize("@ss.hasPermi('users:stature:remove')")
+
     @Log(title = "身材管理", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{statureIds}")
     public AjaxResult remove(@PathVariable Long[] statureIds)
